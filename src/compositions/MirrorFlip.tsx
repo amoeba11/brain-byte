@@ -4,6 +4,7 @@ import {
   Composition,
   Sequence,
   interpolate,
+  spring,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
@@ -11,6 +12,7 @@ import {
 import { colors } from "../themes/colors";
 import { TextReveal } from "../components/TextReveal";
 import { StickFigure } from "../components/StickFigure";
+import { BackgroundPulse } from "../components/BackgroundPulse";
 
 export type MirrorFlipProps = {
   hookText: string;
@@ -62,38 +64,104 @@ const MirrorLine: React.FC = () => (
   />
 );
 
+const MirrorQuestionIcon: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const pop = spring({ frame, fps, config: { damping: 9, mass: 0.7 } });
+  const scale = interpolate(pop, [0, 1], [0, 1]);
+  const wiggle = Math.sin(frame / 10) * 6;
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 24,
+        transform: `scale(${scale})`,
+      }}
+    >
+      <div
+        style={{
+          fontSize: 140,
+          fontWeight: 800,
+          color: colors.accentAlt,
+          transform: `rotate(${wiggle}deg)`,
+        }}
+      >
+        ?
+      </div>
+      <div
+        style={{
+          width: 4,
+          height: 130,
+          backgroundColor: colors.accent,
+          opacity: 0.7,
+        }}
+      />
+      <div
+        style={{
+          fontSize: 140,
+          fontWeight: 800,
+          color: colors.accent,
+          transform: `scaleX(-1) rotate(${-wiggle}deg)`,
+        }}
+      >
+        ?
+      </div>
+    </div>
+  );
+};
+
 const HookScene: React.FC<{ text: string }> = ({ text }) => (
   <AbsoluteFill
-    style={{ alignItems: "center", justifyContent: "center", padding: 100 }}
+    style={{
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 100,
+      gap: 50,
+    }}
   >
-    <TextReveal fontSize={72} style={{ color: colors.foreground }}>
+    <BackgroundPulse color={colors.accent} />
+    <MirrorQuestionIcon />
+    <TextReveal fontSize={68} delay={14} stagger style={{ color: colors.foreground }}>
       {text}
     </TextReveal>
   </AbsoluteFill>
 );
 
-const SetupScene: React.FC<{ text: string }> = ({ text }) => (
-  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-    <MirrorLine />
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 40,
-        position: "relative",
-      }}
-    >
-      <StickFigure raisedArm="right" />
-      <StickFigure raisedArm="right" mirrored highlightColor={colors.accent} />
-    </div>
-    <div style={{ position: "absolute", bottom: "18%", padding: "0 80px" }}>
-      <TextReveal fontSize={44} delay={20} style={{ color: colors.foreground }}>
-        {text}
-      </TextReveal>
-    </div>
-  </AbsoluteFill>
-);
+const SetupScene: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  const bobLeft = Math.sin(frame / 14) * 8;
+  const bobRight = Math.sin(frame / 14 + Math.PI) * 8;
+
+  return (
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
+      <BackgroundPulse color={colors.accentAlt} size={900} />
+      <MirrorLine />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 40,
+          position: "relative",
+        }}
+      >
+        <div style={{ transform: `translateY(${bobLeft}px)` }}>
+          <StickFigure raisedArm="right" />
+        </div>
+        <div style={{ transform: `translateY(${bobRight}px)` }}>
+          <StickFigure raisedArm="right" mirrored highlightColor={colors.accent} />
+        </div>
+      </div>
+      <div style={{ position: "absolute", bottom: "18%", padding: "0 80px" }}>
+        <TextReveal fontSize={44} delay={20} stagger style={{ color: colors.foreground }}>
+          {text}
+        </TextReveal>
+      </div>
+    </AbsoluteFill>
+  );
+};
 
 const DistanceArrow: React.FC<{ side: "left" | "right"; length: number }> = ({
   side,
@@ -117,9 +185,11 @@ const FlipExplainScene: React.FC<{ text: string }> = ({ text }) => {
   const dist = interpolate(frame, [0, 40], [0, 130], {
     extrapolateRight: "clamp",
   });
+  const bounce = 1 + Math.sin(frame / 12) * 0.06;
 
   return (
     <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
+      <BackgroundPulse color={colors.accent} />
       <div
         style={{
           color: colors.muted,
@@ -151,6 +221,7 @@ const FlipExplainScene: React.FC<{ text: string }> = ({ text }) => {
             backgroundColor: colors.accentAlt,
             position: "absolute",
             left: `calc(50% - ${dist + 42}px)`,
+            transform: `scale(${bounce})`,
           }}
         />
         <div
@@ -162,6 +233,7 @@ const FlipExplainScene: React.FC<{ text: string }> = ({ text }) => {
             backgroundColor: "transparent",
             position: "absolute",
             left: `calc(50% + ${dist - 6}px)`,
+            transform: `scale(${bounce})`,
           }}
         />
       </div>
@@ -203,6 +275,7 @@ const TurnAroundScene: React.FC<{ text: string; durationInFrames: number }> = ({
     <AbsoluteFill
       style={{ alignItems: "center", justifyContent: "center", gap: 60 }}
     >
+      <BackgroundPulse color={colors.accentAlt} size={900} />
       <div
         style={{
           display: "flex",
@@ -239,13 +312,14 @@ const TurnAroundScene: React.FC<{ text: string; durationInFrames: number }> = ({
 
 const ButtonScene: React.FC<{ text: string }> = ({ text }) => (
   <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-    <TextReveal fontSize={60} style={{ color: colors.foreground }}>
+    <BackgroundPulse color={colors.accent} />
+    <TextReveal fontSize={60} stagger style={{ color: colors.foreground }}>
       {text}
     </TextReveal>
     <div style={{ marginTop: 40 }}>
       <TextReveal
         fontSize={32}
-        delay={20}
+        delay={25}
         style={{ color: colors.accentAlt, fontWeight: 500 }}
       >
         Follow for more
