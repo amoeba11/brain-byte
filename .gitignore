@@ -5,3 +5,13 @@ dist
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# Episode content stays local-only (scripts, topics, VO text) — only the
+# reusable template is tracked in git.
+episodes/*
+!episodes/000-template
+!episodes/000-template/**
+
+# Generated voiceover audio stays local-only.
+assets/audio/*
+!assets/audio/.gitkeep
