@@ -1,7 +1,7 @@
 # Brain Byte
 
 Playful, meme-y short-form animated explainers about science & tech, for YouTube
-Shorts and Instagram Reels. Built with [Remotion](https://www.remotion.dev)
+Shorts. Built with [Remotion](https://www.remotion.dev)
 (code-based video — React/TypeScript renders to MP4).
 
 ## Project at a glance

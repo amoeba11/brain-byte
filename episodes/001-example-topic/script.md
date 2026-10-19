@@ -2,7 +2,7 @@
 
 **Format:** Wait, how does X actually work? / Counterintuitive fact / Number of the day
 **Target length:** 30–45s
-**Platforms:** YouTube Shorts, Instagram Reels
+**Platform:** YouTube Shorts
 
 ## Hook (0–3s)
 > One line that stops the scroll — a question or a surprising claim.

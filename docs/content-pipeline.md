@@ -33,5 +33,4 @@ Short-form content is often watched muted — burn in captions before publishing
 (Remotion's `@remotion/captions` package, or an external auto-caption tool).
 
 ## 7. Publish
-Upload to YouTube Shorts and Instagram Reels. Track performance in
-`docs/growth-strategy.md`.
+Upload to YouTube Shorts. Track performance in `docs/growth-strategy.md`.

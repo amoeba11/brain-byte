@@ -2,7 +2,7 @@
 
 ## Cadence
 - **2 posts/week** to start (adjust based on bandwidth and what the pipeline can sustain).
-- Same content cross-posted to YouTube Shorts and Instagram Reels.
+- **YouTube Shorts only** for now (Instagram cross-posting can be revisited once the format is proven).
 
 ## Metrics to track per episode
 - Views, average view duration / retention %, likes, shares, comments, follows gained.
