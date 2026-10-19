@@ -4,7 +4,9 @@ import { createServer } from "http";
 import { writeFileSync } from "fs";
 import { getOAuthClient, TOKEN_PATH, REDIRECT_URI } from "./client";
 
-const SCOPES = ["https://www.googleapis.com/auth/youtube.upload"];
+// youtube.upload alone can't update a video's privacy status afterward —
+// the full "youtube" scope covers upload + update (e.g. private -> public).
+const SCOPES = ["https://www.googleapis.com/auth/youtube"];
 
 async function main() {
   const client = getOAuthClient();
