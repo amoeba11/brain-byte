@@ -15,3 +15,7 @@ episodes/*
 # Generated voiceover audio stays local-only.
 assets/audio/*
 !assets/audio/.gitkeep
+
+# YouTube API credentials/tokens — never commit these.
+youtube-credentials.json
+youtube-token.json

@@ -33,4 +33,15 @@ Short-form content is often watched muted — burn in captions before publishing
 (Remotion's `@remotion/captions` package, or an external auto-caption tool).
 
 ## 7. Publish
-Upload to YouTube Shorts. Track performance in `docs/growth-strategy.md`.
+Upload via the YouTube upload script (see README.md's "YouTube upload" section
+for one-time setup):
+```bash
+npm run youtube:upload -- --file out/<episode-slug>.mp4 \
+  --title "..." \
+  --description "..." \
+  --tags shorts,science \
+  --privacy private
+```
+It uploads as **private** by default — review it in YouTube Studio and
+promote to public when you're ready, rather than auto-publishing. Track
+performance in `docs/growth-strategy.md`.
