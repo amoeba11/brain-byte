@@ -1,54 +1,44 @@
-# Remotion video
+# Brain Byte
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+Playful, meme-y short-form animated explainers about science & tech, for YouTube
+Shorts and Instagram Reels. Built with [Remotion](https://www.remotion.dev)
+(code-based video — React/TypeScript renders to MP4).
 
-Welcome to your Remotion project!
+## Project at a glance
+- **Format:** <60s vertical videos (1080x1920)
+- **Voiceover:** AI TTS (e.g. ElevenLabs)
+- **Cadence:** 2x/week (adjustable)
+- See `docs/style-guide.md` and `docs/growth-strategy.md` for tone, visual rules, and format pillars.
 
-## Commands
-
-**Install Dependencies**
-
-```console
-npm i --loglevel=error
+## Structure
+```
+src/
+  compositions/   # reusable video templates (e.g. Explainer)
+  components/     # shared visual components (charts, text reveals, icons)
+  themes/         # brand colors, fonts
+episodes/
+  NNN-topic-slug/ # one folder per episode: script.md, data.ts, notes.md
+assets/
+  audio/          # voiceover + music/sfx
+  fonts/
+  images/
+docs/
+  content-pipeline.md  # idea -> script -> render -> publish workflow
+  style-guide.md       # tone, visual rules, recurring formats
+  growth-strategy.md   # cadence, metrics, idea backlog
 ```
 
-**Start Preview**
-
-```console
-npm run dev
+## Getting started
+```bash
+npm install
+npm run dev        # opens Remotion Studio to preview/edit compositions
 ```
 
-**Render video**
+## Making a new episode
+1. Copy `episodes/001-example-topic/` → `episodes/NNN-topic-slug/`.
+2. Follow `docs/content-pipeline.md` end to end (script → TTS → composition → render → publish).
 
-```console
-npx remotion render
+## Render a video
+```bash
+npx remotion render Explainer out/<episode-slug>.mp4
 ```
-
-**Upgrade Remotion**
-
-```console
-npx remotion upgrade
-```
-
-## Docs
-
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
-
-## Help
-
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
-
-## License
-
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).

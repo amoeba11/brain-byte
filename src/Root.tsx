@@ -1,9 +1,9 @@
-import { MyComposition } from "./Composition";
+import { ExplainerComposition } from "./compositions/Explainer";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      <MyComposition />
+      <ExplainerComposition />
     </>
   );
 };
