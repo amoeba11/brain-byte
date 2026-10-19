@@ -30,7 +30,8 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "youtube:auth": "tsx scripts/youtube/auth.ts",
-    "youtube:upload": "tsx scripts/youtube/upload.ts"
+    "youtube:upload": "tsx scripts/youtube/upload.ts",
+    "youtube:set-privacy": "tsx scripts/youtube/set-privacy.ts"
   },
   "allowScripts": {
     "esbuild": false
