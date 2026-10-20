@@ -14,6 +14,7 @@ import { TextReveal } from "../components/TextReveal";
 import { StickFigure } from "../components/StickFigure";
 import { BackgroundPulse } from "../components/BackgroundPulse";
 import { ChannelWatermark } from "../components/ChannelWatermark";
+import { EndCardScene } from "../components/EndCardScene";
 
 export type MirrorFlipProps = {
   hookText: string;
@@ -313,24 +314,6 @@ const TurnAroundScene: React.FC<{ text: string; durationInFrames: number }> = ({
   );
 };
 
-const ButtonScene: React.FC<{ text: string }> = ({ text }) => (
-  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-    <BackgroundPulse color={colors.accent} />
-    <TextReveal fontSize={60} stagger style={{ color: colors.foreground }}>
-      {text}
-    </TextReveal>
-    <div style={{ marginTop: 40 }}>
-      <TextReveal
-        fontSize={32}
-        delay={25}
-        style={{ color: colors.accentAlt, fontWeight: 500 }}
-      >
-        Follow for more
-      </TextReveal>
-    </div>
-  </AbsoluteFill>
-);
-
 export const MirrorFlip: React.FC<MirrorFlipProps> = ({
   hookText,
   setupText,
@@ -367,7 +350,7 @@ export const MirrorFlip: React.FC<MirrorFlipProps> = ({
         <TurnAroundScene text={turnAroundText} durationInFrames={turnAround} />
       </Sequence>
       <Sequence from={hook + setup + flip + turnAround} durationInFrames={button}>
-        <ButtonScene text={buttonText} />
+        <EndCardScene text={buttonText} />
       </Sequence>
 
       <ChannelWatermark text={channelName} />
