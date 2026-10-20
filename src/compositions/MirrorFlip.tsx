@@ -13,6 +13,7 @@ import { colors } from "../themes/colors";
 import { TextReveal } from "../components/TextReveal";
 import { StickFigure } from "../components/StickFigure";
 import { BackgroundPulse } from "../components/BackgroundPulse";
+import { ChannelWatermark } from "../components/ChannelWatermark";
 
 export type MirrorFlipProps = {
   hookText: string;
@@ -22,6 +23,8 @@ export type MirrorFlipProps = {
   buttonText: string;
   /** Path relative to the public dir (e.g. "audio/my-episode.m4a"); omit for silent preview. */
   audioFile?: string;
+  /** Channel name/handle shown as a subtle corner watermark + on the end card; omit for none. */
+  channelName?: string;
 };
 
 const defaultProps: MirrorFlipProps = {
@@ -310,7 +313,10 @@ const TurnAroundScene: React.FC<{ text: string; durationInFrames: number }> = ({
   );
 };
 
-const ButtonScene: React.FC<{ text: string }> = ({ text }) => (
+const ButtonScene: React.FC<{ text: string; channelName?: string }> = ({
+  text,
+  channelName,
+}) => (
   <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
     <BackgroundPulse color={colors.accent} />
     <TextReveal fontSize={60} stagger style={{ color: colors.foreground }}>
@@ -322,7 +328,7 @@ const ButtonScene: React.FC<{ text: string }> = ({ text }) => (
         delay={25}
         style={{ color: colors.accentAlt, fontWeight: 500 }}
       >
-        Follow for more
+        {channelName ? `Follow ${channelName} for more` : "Follow for more"}
       </TextReveal>
     </div>
   </AbsoluteFill>
@@ -335,6 +341,7 @@ export const MirrorFlip: React.FC<MirrorFlipProps> = ({
   turnAroundText,
   buttonText,
   audioFile,
+  channelName,
 }) => {
   const { durationInFrames } = useVideoConfig();
 
@@ -363,8 +370,10 @@ export const MirrorFlip: React.FC<MirrorFlipProps> = ({
         <TurnAroundScene text={turnAroundText} durationInFrames={turnAround} />
       </Sequence>
       <Sequence from={hook + setup + flip + turnAround} durationInFrames={button}>
-        <ButtonScene text={buttonText} />
+        <ButtonScene text={buttonText} channelName={channelName} />
       </Sequence>
+
+      <ChannelWatermark text={channelName} />
     </AbsoluteFill>
   );
 };
