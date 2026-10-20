@@ -15,6 +15,7 @@ import { BackgroundPulse } from "../components/BackgroundPulse";
 import { ChannelWatermark } from "../components/ChannelWatermark";
 import { EndCardScene } from "../components/EndCardScene";
 import { Waveform } from "../components/Waveform";
+import { SpeakerIcon } from "../components/SpeakerIcon";
 
 export type WaveCancelProps = {
   hookText: string;
@@ -204,26 +205,34 @@ const TwistScene: React.FC<{ text: string; durationInFrames: number }> = ({
   });
 
   return (
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 50 }}>
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 44 }}>
       <BackgroundPulse color={colors.accentAlt} size={900} />
       <div style={{ display: "flex", gap: 60 }}>
         <div style={{ textAlign: "center" }}>
-          <Waveform width={400} height={140} amplitude={36 * steadyCancel} color={colors.accentAlt} />
-          <div style={{ color: colors.muted, fontSize: 26, marginTop: 8 }}>
-            Steady hum — cancels clean
+          <Waveform width={380} height={120} amplitude={36 * steadyCancel} color={colors.accentAlt} />
+          <div style={{ marginTop: 16 }}>
+            <SpeakerIcon level={steadyCancel} color={colors.accentAlt} />
           </div>
+          <div style={{ color: colors.accentAlt, fontSize: 32, fontWeight: 700, marginTop: 10 }}>
+            {Math.round((1 - steadyCancel) * 100)}% canceled
+          </div>
+          <div style={{ color: colors.muted, fontSize: 24, marginTop: 4 }}>Steady hum</div>
         </div>
         <div style={{ textAlign: "center" }}>
           <Waveform
-            width={400}
-            height={140}
+            width={380}
+            height={120}
             amplitude={36 * jaggedCancel}
             color={colors.accent}
             jagged
           />
-          <div style={{ color: colors.muted, fontSize: 26, marginTop: 8 }}>
-            Voices — leftover squiggle
+          <div style={{ marginTop: 16 }}>
+            <SpeakerIcon level={jaggedCancel} color={colors.accent} />
           </div>
+          <div style={{ color: colors.accent, fontSize: 32, fontWeight: 700, marginTop: 10 }}>
+            {Math.round((1 - jaggedCancel) * 100)}% canceled
+          </div>
+          <div style={{ color: colors.muted, fontSize: 24, marginTop: 4 }}>Voices</div>
         </div>
       </div>
       <div style={{ padding: "0 90px" }}>
@@ -248,10 +257,13 @@ export const WaveCancel: React.FC<WaveCancelProps> = ({
 
   // Beat timings proportioned by VO word count — fine-tune against the real
   // audio waveform in Remotion Studio before final render.
-  const hook = Math.round(durationInFrames * 0.11);
-  const setup = Math.round(durationInFrames * 0.23);
-  const payoff = Math.round(durationInFrames * 0.27);
-  const twist = Math.round(durationInFrames * 0.3);
+  // Proportioned by actual VO word count per beat (hook 11, setup 20,
+  // payoff 39, twist 27, button 5 words of 102 total) — fine-tune against
+  // the real audio waveform in Remotion Studio if it still drifts.
+  const hook = Math.round(durationInFrames * 0.108);
+  const setup = Math.round(durationInFrames * 0.196);
+  const payoff = Math.round(durationInFrames * 0.382);
+  const twist = Math.round(durationInFrames * 0.265);
   const button = durationInFrames - hook - setup - payoff - twist;
 
   return (
