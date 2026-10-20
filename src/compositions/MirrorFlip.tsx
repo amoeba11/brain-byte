@@ -313,10 +313,7 @@ const TurnAroundScene: React.FC<{ text: string; durationInFrames: number }> = ({
   );
 };
 
-const ButtonScene: React.FC<{ text: string; channelName?: string }> = ({
-  text,
-  channelName,
-}) => (
+const ButtonScene: React.FC<{ text: string }> = ({ text }) => (
   <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
     <BackgroundPulse color={colors.accent} />
     <TextReveal fontSize={60} stagger style={{ color: colors.foreground }}>
@@ -328,7 +325,7 @@ const ButtonScene: React.FC<{ text: string; channelName?: string }> = ({
         delay={25}
         style={{ color: colors.accentAlt, fontWeight: 500 }}
       >
-        {channelName ? `Follow ${channelName} for more` : "Follow for more"}
+        Follow for more
       </TextReveal>
     </div>
   </AbsoluteFill>
@@ -370,7 +367,7 @@ export const MirrorFlip: React.FC<MirrorFlipProps> = ({
         <TurnAroundScene text={turnAroundText} durationInFrames={turnAround} />
       </Sequence>
       <Sequence from={hook + setup + flip + turnAround} durationInFrames={button}>
-        <ButtonScene text={buttonText} channelName={channelName} />
+        <ButtonScene text={buttonText} />
       </Sequence>
 
       <ChannelWatermark text={channelName} />
