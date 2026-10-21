@@ -31,7 +31,8 @@
     "lint": "eslint src && tsc",
     "youtube:auth": "tsx scripts/youtube/auth.ts",
     "youtube:upload": "tsx scripts/youtube/upload.ts",
-    "youtube:set-privacy": "tsx scripts/youtube/set-privacy.ts"
+    "youtube:set-privacy": "tsx scripts/youtube/set-privacy.ts",
+    "youtube:fetch-stats": "tsx scripts/youtube/fetch-stats.ts"
   },
   "allowScripts": {
     "esbuild": false
