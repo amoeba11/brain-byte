@@ -39,7 +39,6 @@ async function fetchProjectStats(
     throw new Error(`No channel found for id ${channelId}`);
   }
 
-  const totalViews = Number(channel.statistics?.viewCount ?? 0);
   const videoCount = Number(channel.statistics?.videoCount ?? 0);
   const uploadsPlaylistId =
     channel.contentDetails?.relatedPlaylists?.uploads;
@@ -82,6 +81,10 @@ async function fetchProjectStats(
       });
     }
   }
+
+  // The channel-level viewCount stat can lag behind per-video counts, so
+  // sum the per-video numbers instead for an accurate, consistent total.
+  const totalViews = videos.reduce((sum, v) => sum + v.views, 0);
 
   return { totalViews, videoCount, videos };
 }
