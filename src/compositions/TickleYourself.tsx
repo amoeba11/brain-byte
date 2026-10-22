@@ -81,11 +81,14 @@ const SetupScene: React.FC<{ text: string }> = ({ text }) => (
 // Shows the outcome directly: a ripple that instantly gets squashed
 // (dampened) vs. one that keeps expanding (registers) — no internal
 // mechanism to decode, just the before/after you can read in half a second.
+// Reuses the same self-tickle figure from the hook/setup (rather than an
+// unconnected floating ripple) so it visually reads as "here's that same
+// attempt again — here's why it fails," not a new, disconnected diagram.
 const PayoffScene: React.FC<{ text: string }> = ({ text }) => (
   <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 10 }}>
     <BackgroundPulse color={colors.accent} />
     <div style={{ color: colors.muted, fontSize: 29, letterSpacing: 1 }}>predicted → dampened</div>
-    <TouchReaction canceled color={colors.accentAlt} size={280} />
+    <TickleAttempt color={colors.accentAlt} size={300} />
     <div style={{ padding: "0 90px", marginTop: 10 }}>
       <TextReveal fontSize={52} delay={10} style={{ color: colors.foreground }}>
         {text}
