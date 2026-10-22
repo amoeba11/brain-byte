@@ -24,8 +24,22 @@ Run `npm run lint` before committing any code change.
 - `src/themes/` — brand colors/fonts
 - `episodes/NNN-topic-slug/` — one folder per episode (script, data, notes)
 - `docs/content-pipeline.md`, `docs/style-guide.md`, `docs/growth-strategy.md` — follow these for tone, visual rules, and the idea → script → render → publish workflow
-- Never commit `youtube-credentials.json` or `youtube-token.json` (gitignored secrets)
 - Rendered output in `out/` is a build artifact, not something to hand-edit
+
+## Episode numbering
+- Episode folders are `episodes/NNN-topic-slug/`, `NNN` zero-padded to 3 digits
+- Use the next unused number after the highest existing episode folder — check `episodes/` first, don't guess or reuse a number
+- `topic-slug` is a short kebab-case description of the episode's topic
+
+## Style guide
+- Re-read `docs/style-guide.md` before writing or editing any episode script, not just once at the start of a session — tone and visual rules there take precedence over generic conventions
+
+## Testing/verification
+- After changing a composition or component, preview it in Remotion Studio (`npm run dev`) or render at least a short frame range before calling the change done — don't rely on `npm run lint` passing alone as proof it looks right
+- Run `npm run lint` before every commit
+
+## Secrets handling
+- `youtube-credentials.json` and `youtube-token.json` are gitignored secrets — never commit them, and never print or quote their contents in chat or logs even if asked
 
 ## Git workflow: always use a PR
 Never commit directly to `main`. For every change:
