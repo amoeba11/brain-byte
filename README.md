@@ -4,12 +4,47 @@ Playful, meme-y short-form animated explainers about science & tech, for YouTube
 Shorts. Built with [Remotion](https://www.remotion.dev)
 (code-based video — React/TypeScript renders to MP4).
 
-📊 [Public stats dashboard](https://amoeba11.github.io/brain-byte/) — anonymized view/episode metrics, updated daily.
+## Product Thesis
+Short-form content is a high-frequency feedback environment. Small changes in
+pacing, hook structure, visuals, captions, and audio can meaningfully affect
+viewer retention.
+
+This project tests whether those variables can be controlled and improved
+systematically through automation.
+
+Working assumptions:
+- Production can be mostly automated.
+- Retention cannot be solved by automation alone.
+- The highest-leverage work is building a feedback loop that translates
+  platform behavior into product changes.
+- Human taste may still be the limiting factor — especially in subject
+  selection, emotional resonance, and narrative quality.
+
+## What This Is
+A solo experiment: can one person run a multi-channel short-form content
+operation where the marginal cost of producing and publishing each
+additional video approaches zero?
+
+The first-order challenge is automation.
+The second-order challenge is quality.
+The third-order challenge is learning fast enough from viewer behavior to
+improve the system.
+
+## Stats dashboard
+📊 [Public stats dashboard](https://amoeba11.github.io/brain-byte/) — per-project
+tiles (total views, video count, views per episode), updated daily. Shows
+only aggregate numbers — no channel names, handles, video titles, or links
+back to the real channel.
+
+A GitHub Action (`.github/workflows/update-stats.yml`) runs
+`npm run youtube:fetch-stats` daily, refreshes `docs/stats.json`, and commits
+it back to `main`; GitHub Pages serves `docs/index.html` from there. See
+`docs/dashboard.md` for setup (API key, channel ID, adding another project).
 
 ## Project at a glance
 - **Format:** <60s vertical videos (1080x1920)
 - **Voiceover:** AI TTS (e.g. ElevenLabs)
-- **Cadence:** 2x/week (adjustable)
+- **Cadence:** daily, 1 video/day
 - See `docs/style-guide.md` and `docs/growth-strategy.md` for tone, visual rules, and format pillars.
 
 ## Structure
