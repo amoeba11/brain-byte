@@ -4,6 +4,8 @@ Playful, meme-y short-form animated explainers about science & tech, for YouTube
 Shorts. Built with [Remotion](https://www.remotion.dev)
 (code-based video — React/TypeScript renders to MP4).
 
+📊 [Public stats dashboard](https://amoeba11.github.io/brain-byte/) — anonymized view/episode metrics, updated daily.
+
 ## Project at a glance
 - **Format:** <60s vertical videos (1080x1920)
 - **Voiceover:** AI TTS (e.g. ElevenLabs)
