@@ -1,7 +1,7 @@
 # Growth Strategy
 
 ## Cadence
-- **2 posts/week** to start (adjust based on bandwidth and what the pipeline can sustain).
+- **Daily, 1 video/day** (adjust based on bandwidth and what the pipeline can sustain).
 - **YouTube Shorts only** for now (Instagram cross-posting can be revisited once the format is proven).
 
 ## Metrics to track per episode
