@@ -3,9 +3,7 @@ import {
   Audio,
   Composition,
   Sequence,
-  interpolate,
   staticFile,
-  useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { colors } from "../themes/colors";
@@ -13,9 +11,8 @@ import { TextReveal } from "../components/TextReveal";
 import { BackgroundPulse } from "../components/BackgroundPulse";
 import { ChannelWatermark } from "../components/ChannelWatermark";
 import { EndCardScene } from "../components/EndCardScene";
-import { Waveform } from "../components/Waveform";
-import { SpeakerIcon } from "../components/SpeakerIcon";
-import { TouchIcon } from "../components/TouchIcon";
+import { TouchReaction } from "../components/TouchReaction";
+import { TickleAttempt } from "../components/TickleAttempt";
 
 export type TickleYourselfProps = {
   hookText: string;
@@ -36,9 +33,10 @@ const defaultProps: TickleYourselfProps = {
 };
 
 // Generic "predicted vs. unpredicted signal" explainer template: a touch
-// icon for the hook/setup, then the same destructive-interference visual
-// language as WaveCancel for the prediction-cancels-signal payoff/twist.
-// Reusable for any episode about the brain predicting/dampening a sensation.
+// icon for the hook/setup, then a nerve-pathway visual (a touch pulse and a
+// prediction pulse traveling toward each other and canceling) for the
+// payoff/twist. Reusable for any episode about the brain predicting or
+// being surprised by a sensation.
 export const TickleYourselfComposition = () => {
   return (
     <Composition
@@ -53,157 +51,75 @@ export const TickleYourselfComposition = () => {
   );
 };
 
-const HookScene: React.FC<{ text: string }> = ({ text }) => {
-  const frame = useCurrentFrame();
+// The hook: an animated figure actually reaching in to tickle itself, with
+// nothing happening — literal and immediately legible, rather than an
+// abstract icon.
+const HookScene: React.FC<{ text: string }> = ({ text }) => (
+  <AbsoluteFill
+    style={{ alignItems: "center", justifyContent: "center", gap: 30 }}
+  >
+    <BackgroundPulse color={colors.accent} />
+    <TickleAttempt color={colors.accentAlt} size={300} />
+    <TextReveal fontSize={74} delay={16} stagger style={{ color: colors.foreground }}>
+      {text}
+    </TextReveal>
+  </AbsoluteFill>
+);
 
-  return (
-    <AbsoluteFill
-      style={{ alignItems: "center", justifyContent: "center", gap: 50 }}
-    >
-      <BackgroundPulse color={colors.accent} />
-      <TouchIcon active={frame < 18} color={colors.accentAlt} />
-      <TextReveal fontSize={64} delay={16} stagger style={{ color: colors.foreground }}>
+const SetupScene: React.FC<{ text: string }> = ({ text }) => (
+  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 30 }}>
+    <BackgroundPulse color={colors.accentAlt} size={900} />
+    <TickleAttempt color={colors.muted} size={270} />
+    <div style={{ padding: "0 90px" }}>
+      <TextReveal fontSize={52} delay={15} stagger style={{ color: colors.foreground }}>
         {text}
       </TextReveal>
-    </AbsoluteFill>
-  );
-};
+    </div>
+  </AbsoluteFill>
+);
 
-const SetupScene: React.FC<{ text: string }> = ({ text }) => {
-  const frame = useCurrentFrame();
-  const bob = Math.sin(frame / 14) * 6;
+// Shows the outcome directly: a ripple that instantly gets squashed
+// (dampened) vs. one that keeps expanding (registers) — no internal
+// mechanism to decode, just the before/after you can read in half a second.
+const PayoffScene: React.FC<{ text: string }> = ({ text }) => (
+  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 10 }}>
+    <BackgroundPulse color={colors.accent} />
+    <div style={{ color: colors.muted, fontSize: 29, letterSpacing: 1 }}>predicted → dampened</div>
+    <TouchReaction canceled color={colors.accentAlt} size={280} />
+    <div style={{ padding: "0 90px", marginTop: 10 }}>
+      <TextReveal fontSize={52} delay={10} style={{ color: colors.foreground }}>
+        {text}
+      </TextReveal>
+    </div>
+  </AbsoluteFill>
+);
 
-  return (
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 50 }}>
-      <BackgroundPulse color={colors.accentAlt} size={900} />
-      <div style={{ transform: `translateY(${bob}px)` }}>
-        <TouchIcon active={false} color={colors.muted} />
-      </div>
-      <div style={{ padding: "0 90px" }}>
-        <TextReveal fontSize={46} delay={15} stagger style={{ color: colors.foreground }}>
-          {text}
-        </TextReveal>
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-const PayoffScene: React.FC<{ text: string; durationInFrames: number }> = ({
-  text,
-  durationInFrames,
-}) => {
-  const frame = useCurrentFrame();
-  const merge = interpolate(frame, [0, durationInFrames - 60], [70, 0], {
-    extrapolateRight: "clamp",
-  });
-  const cancelled = interpolate(frame, [durationInFrames - 60, durationInFrames - 30], [1, 0.04], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  return (
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 30 }}>
-      <BackgroundPulse color={colors.accent} />
-      <div style={{ color: colors.muted, fontSize: 26, letterSpacing: 1 }}>
-        prediction + actual touch = dampened
-      </div>
-      <div style={{ position: "relative", width: 700, height: 220 }}>
-        <div style={{ position: "absolute", top: 110 - merge }}>
-          <Waveform width={700} amplitude={44 * cancelled} color={colors.accentAlt} />
+const TwistScene: React.FC<{ text: string }> = ({ text }) => (
+  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 40 }}>
+    <BackgroundPulse color={colors.accentAlt} size={900} />
+    <div style={{ display: "flex", gap: 50 }}>
+      <div style={{ textAlign: "center" }}>
+        <TouchReaction canceled color={colors.accentAlt} size={220} />
+        <div style={{ color: colors.accentAlt, fontSize: 34, fontWeight: 700, marginTop: 8 }}>
+          Dampened
         </div>
-        <div style={{ position: "absolute", top: 110 + merge }}>
-          <Waveform
-            width={700}
-            amplitude={44 * cancelled}
-            color={colors.accent}
-            phase={Math.PI}
-          />
+        <div style={{ color: colors.muted, fontSize: 25, marginTop: 4 }}>Your own touch</div>
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <TouchReaction canceled={false} color={colors.accent} size={220} />
+        <div style={{ color: colors.accent, fontSize: 34, fontWeight: 700, marginTop: 8 }}>
+          Registers
         </div>
-        <div
-          style={{
-            position: "absolute",
-            top: 170,
-            left: 0,
-            width: 700,
-            height: 3,
-            backgroundColor: colors.foreground,
-            opacity: 1 - cancelled,
-          }}
-        />
+        <div style={{ color: colors.muted, fontSize: 25, marginTop: 4 }}>Someone else's touch</div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          width: 700,
-          justifyContent: "space-between",
-          marginTop: -10,
-        }}
-      >
-        <span style={{ color: colors.accentAlt, fontSize: 26 }}>Brain's prediction</span>
-        <span style={{ color: colors.accent, fontSize: 26 }}>Your touch</span>
-      </div>
-      <div style={{ padding: "0 90px", marginTop: 20 }}>
-        <TextReveal fontSize={44} delay={10} style={{ color: colors.foreground }}>
-          {text}
-        </TextReveal>
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-const TwistScene: React.FC<{ text: string; durationInFrames: number }> = ({
-  text,
-  durationInFrames,
-}) => {
-  const frame = useCurrentFrame();
-  const selfCancel = interpolate(frame, [10, durationInFrames - 50], [1, 0.03], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const otherCancel = interpolate(frame, [10, durationInFrames - 50], [1, 0.6], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  return (
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 44 }}>
-      <BackgroundPulse color={colors.accentAlt} size={900} />
-      <div style={{ display: "flex", gap: 60 }}>
-        <div style={{ textAlign: "center" }}>
-          <Waveform width={380} height={120} amplitude={36 * selfCancel} color={colors.accentAlt} />
-          <div style={{ marginTop: 16 }}>
-            <SpeakerIcon level={selfCancel} color={colors.accentAlt} />
-          </div>
-          <div style={{ color: colors.accentAlt, fontSize: 32, fontWeight: 700, marginTop: 10 }}>
-            {Math.round((1 - selfCancel) * 100)}% dampened
-          </div>
-          <div style={{ color: colors.muted, fontSize: 24, marginTop: 4 }}>Your own touch</div>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <Waveform
-            width={380}
-            height={120}
-            amplitude={36 * otherCancel}
-            color={colors.accent}
-            jagged
-          />
-          <div style={{ marginTop: 16 }}>
-            <SpeakerIcon level={otherCancel} color={colors.accent} />
-          </div>
-          <div style={{ color: colors.accent, fontSize: 32, fontWeight: 700, marginTop: 10 }}>
-            {Math.round((1 - otherCancel) * 100)}% dampened
-          </div>
-          <div style={{ color: colors.muted, fontSize: 24, marginTop: 4 }}>Someone else's touch</div>
-        </div>
-      </div>
-      <div style={{ padding: "0 90px" }}>
-        <TextReveal fontSize={44} delay={20} style={{ color: colors.foreground }}>
-          {text}
-        </TextReveal>
-      </div>
-    </AbsoluteFill>
-  );
-};
+    </div>
+    <div style={{ padding: "0 90px" }}>
+      <TextReveal fontSize={50} delay={20} style={{ color: colors.foreground }}>
+        {text}
+      </TextReveal>
+    </div>
+  </AbsoluteFill>
+);
 
 export const TickleYourself: React.FC<TickleYourselfProps> = ({
   hookText,
@@ -238,10 +154,10 @@ export const TickleYourself: React.FC<TickleYourselfProps> = ({
         <SetupScene text={setupText} />
       </Sequence>
       <Sequence from={hook + setup} durationInFrames={payoff}>
-        <PayoffScene text={payoffText} durationInFrames={payoff} />
+        <PayoffScene text={payoffText} />
       </Sequence>
       <Sequence from={hook + setup + payoff} durationInFrames={twist}>
-        <TwistScene text={twistText} durationInFrames={twist} />
+        <TwistScene text={twistText} />
       </Sequence>
       <Sequence from={hook + setup + payoff + twist} durationInFrames={button}>
         <EndCardScene text={buttonText} />
