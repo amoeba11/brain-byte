@@ -3,7 +3,10 @@ import {
   Audio,
   Composition,
   Sequence,
+  interpolate,
+  spring,
   staticFile,
+  useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { colors } from "../themes/colors";
@@ -11,8 +14,8 @@ import { TextReveal } from "../components/TextReveal";
 import { BackgroundPulse } from "../components/BackgroundPulse";
 import { ChannelWatermark } from "../components/ChannelWatermark";
 import { EndCardScene } from "../components/EndCardScene";
-import { TouchReaction } from "../components/TouchReaction";
 import { TickleAttempt } from "../components/TickleAttempt";
+import { TickledByOther } from "../components/TickledByOther";
 
 export type TickleYourselfProps = {
   hookText: string;
@@ -66,17 +69,28 @@ const HookScene: React.FC<{ text: string }> = ({ text }) => (
   </AbsoluteFill>
 );
 
-const SetupScene: React.FC<{ text: string }> = ({ text }) => (
-  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 30 }}>
-    <BackgroundPulse color={colors.accentAlt} size={900} />
-    <TickleAttempt color={colors.muted} size={270} />
-    <div style={{ padding: "0 90px" }}>
-      <TextReveal fontSize={52} delay={15} stagger style={{ color: colors.foreground }}>
-        {text}
-      </TextReveal>
-    </div>
-  </AbsoluteFill>
-);
+// A "cut to a closer angle" zoom-in on the same attempt, so it doesn't feel
+// like the exact same shot replaying as the hook.
+const SetupScene: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const zoomIn = spring({ frame, fps, config: { damping: 14, mass: 0.6 } });
+  const scale = interpolate(zoomIn, [0, 1], [1.35, 1]);
+
+  return (
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 30 }}>
+      <BackgroundPulse color={colors.accentAlt} size={900} />
+      <div style={{ transform: `scale(${scale})` }}>
+        <TickleAttempt color={colors.muted} size={300} />
+      </div>
+      <div style={{ padding: "0 90px" }}>
+        <TextReveal fontSize={52} delay={15} stagger style={{ color: colors.foreground }}>
+          {text}
+        </TextReveal>
+      </div>
+    </AbsoluteFill>
+  );
+};
 
 // Shows the outcome directly: a ripple that instantly gets squashed
 // (dampened) vs. one that keeps expanding (registers) — no internal
@@ -84,32 +98,67 @@ const SetupScene: React.FC<{ text: string }> = ({ text }) => (
 // Reuses the same self-tickle figure from the hook/setup (rather than an
 // unconnected floating ripple) so it visually reads as "here's that same
 // attempt again — here's why it fails," not a new, disconnected diagram.
-const PayoffScene: React.FC<{ text: string }> = ({ text }) => (
-  <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 10 }}>
-    <BackgroundPulse color={colors.accent} />
-    <div style={{ color: colors.muted, fontSize: 29, letterSpacing: 1 }}>predicted → dampened</div>
-    <TickleAttempt color={colors.accentAlt} size={300} />
-    <div style={{ padding: "0 90px", marginTop: 10 }}>
-      <TextReveal fontSize={52} delay={10} style={{ color: colors.foreground }}>
-        {text}
-      </TextReveal>
-    </div>
-  </AbsoluteFill>
-);
+const PayoffScene: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  // A "predicted" badge that pops in sync with the figure's own repeating
+  // attempt cycle (see TickleAttempt) — new visual flair tying the label
+  // directly to the moment of contact, not just a repeat of the hook shot.
+  const local = frame % 42;
+  const badgePop = interpolate(local, [3, 9, 24, 30], [0, 1, 1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
+  return (
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 10 }}>
+      <BackgroundPulse color={colors.accent} />
+      <div style={{ color: colors.muted, fontSize: 29, letterSpacing: 1 }}>predicted → dampened</div>
+      <div style={{ position: "relative" }}>
+        <TickleAttempt color={colors.accentAlt} size={300} />
+        <div
+          style={{
+            position: "absolute",
+            top: "30%",
+            left: "12%",
+            backgroundColor: colors.accent,
+            color: colors.background,
+            fontSize: 22,
+            fontWeight: 700,
+            padding: "6px 14px",
+            borderRadius: 999,
+            opacity: badgePop,
+            transform: `scale(${0.7 + badgePop * 0.3})`,
+          }}
+        >
+          predicted
+        </div>
+      </div>
+      <div style={{ padding: "0 90px", marginTop: 10 }}>
+        <TextReveal fontSize={52} delay={10} style={{ color: colors.foreground }}>
+          {text}
+        </TextReveal>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// Same two human figures carried through from the hook/setup/payoff,
+// side by side: one still tickling itself (dampened), one being tickled by
+// someone else's hand (registers) — a direct, literal comparison instead of
+// abstract ripples with no figure at all.
 const TwistScene: React.FC<{ text: string }> = ({ text }) => (
   <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 40 }}>
     <BackgroundPulse color={colors.accentAlt} size={900} />
     <div style={{ display: "flex", gap: 50 }}>
       <div style={{ textAlign: "center" }}>
-        <TouchReaction canceled color={colors.accentAlt} size={220} />
+        <TickleAttempt color={colors.accentAlt} size={220} />
         <div style={{ color: colors.accentAlt, fontSize: 34, fontWeight: 700, marginTop: 8 }}>
           Dampened
         </div>
         <div style={{ color: colors.muted, fontSize: 25, marginTop: 4 }}>Your own touch</div>
       </div>
       <div style={{ textAlign: "center" }}>
-        <TouchReaction canceled={false} color={colors.accent} size={220} />
+        <TickledByOther color={colors.accent} size={220} />
         <div style={{ color: colors.accent, fontSize: 34, fontWeight: 700, marginTop: 8 }}>
           Registers
         </div>
