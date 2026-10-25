@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-24T16:19:49.182Z",
+  "updatedAt": "2026-10-25T16:53:20.807Z",
   "projects": [
     {
       "slug": "project-brain-byte",
       "label": "Project Brain Byte",
       "description": "Everyday science and tech, explained in under a minute — an anonymous short-form channel tracked here for an open metrics experiment.",
-      "totalViews": 1361,
-      "videoCount": 4,
+      "totalViews": 1619,
+      "videoCount": 5,
       "videos": [
         {
           "episode": 1,
@@ -15,7 +15,7 @@
         },
         {
           "episode": 2,
-          "views": 26,
+          "views": 25,
           "likes": 0
         },
         {
@@ -26,6 +26,11 @@
         {
           "episode": 4,
           "views": 9,
+          "likes": 2
+        },
+        {
+          "episode": 5,
+          "views": 259,
           "likes": 2
         }
       ]
