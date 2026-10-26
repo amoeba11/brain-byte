@@ -11,9 +11,10 @@ Capture in a running backlog (see `docs/growth-strategy.md` for format pillars).
 Copy `episodes/001-example-topic/` as a template → rename to `NNN-topic-slug/`.
 Fill out `script.md`: hook, beats, full VO text, visual notes, sources.
 
-## 3. Voiceover (AI TTS)
-- Paste the VO script into your TTS tool of choice (e.g. ElevenLabs, OpenAI TTS).
-- Export audio, drop it into `assets/audio/<episode-slug>.mp3`.
+## 3. Voiceover (macOS `say`)
+- Generate the VO with macOS's `say` command, e.g.
+  `say -v <voice> -o assets/audio/<episode-slug>.aiff -f episodes/NNN-topic-slug/narration.txt`
+- Convert if needed (`afconvert -f mp4f -d aac in.aiff out.m4a`) and keep the audio in `assets/audio/`.
 
 ## 4. Composition
 - Fill `episodes/NNN-topic-slug/data.ts` with episode-specific props (title, stats, etc.).
