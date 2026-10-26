@@ -212,7 +212,7 @@ const HookScene: React.FC<{ text: string }> = ({ text }) => {
         </div>
         <Stamp text="ON PURPOSE" appear={truth} color={colors.accentAlt} size={96} rotate={4} />
       </div>
-      <div style={{ position: "absolute", bottom: 190, padding: "0 90px" }}>
+      <div style={{ position: "absolute", bottom: 220, padding: "0 90px" }}>
         <TextReveal fontSize={54} delay={20} stagger style={{ color: colors.foreground }}>
           {text}
         </TextReveal>
@@ -265,7 +265,7 @@ const SetupScene: React.FC<{ text: string }> = ({ text }) => {
         <Stamp text="NO SIGNAL = NO PRUNE" appear={note} color={colors.accent} size={58} rotate={-2} />
       </div>
       <WaterBand height={300} />
-      <div style={{ position: "absolute", bottom: 150, padding: "0 90px" }}>
+      <div style={{ position: "absolute", bottom: 180, padding: "0 90px" }}>
         <TextReveal fontSize={50} delay={12} stagger style={{ color: colors.foreground }}>
           {text}
         </TextReveal>
@@ -376,7 +376,7 @@ const PayoffScene: React.FC<{ text: string }> = ({ text }) => {
           ) : null
         )}
       </svg>
-      <div style={{ position: "absolute", bottom: 150, padding: "0 90px" }}>
+      <div style={{ position: "absolute", bottom: 180, padding: "0 90px" }}>
         <TextReveal fontSize={46} delay={10} stagger style={{ color: colors.foreground }}>
           {text}
         </TextReveal>
@@ -439,7 +439,7 @@ const BonusScene: React.FC<{ text: string }> = ({ text }) => {
         <Stamp text="THEORY" appear={theory} color={colors.accentAlt} size={70} rotate={-5} />
         <Stamp text="STILL DEBATED" appear={debated} color={colors.accent} size={56} rotate={4} />
       </div>
-      <div style={{ position: "absolute", bottom: 170, padding: "0 90px" }}>
+      <div style={{ position: "absolute", bottom: 200, padding: "0 90px" }}>
         <TextReveal fontSize={46} delay={8} stagger style={{ color: colors.foreground }}>
           {text}
         </TextReveal>
@@ -497,7 +497,7 @@ const RainTiresScene: React.FC<{ text: string }> = ({ text }) => {
         </g>
       </svg>
       <Stamp text="RAIN TIRES?" appear={ramp(frame, 60, 72)} color={colors.accentAlt} size={100} rotate={-4} />
-      <div style={{ padding: "0 90px" }}>
+      <div style={{ padding: "0 90px", transform: "translateY(-30px)" }}>
         <TextReveal fontSize={48} delay={8} stagger style={{ color: colors.foreground }}>
           {text}
         </TextReveal>
