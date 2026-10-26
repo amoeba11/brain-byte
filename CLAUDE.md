@@ -48,7 +48,7 @@ Run `npm run lint` before committing any code change.
 Follow these steps in order (details in `docs/content-pipeline.md`):
 1. **Script** — copy `episodes/001-example-topic/` to the next unused `episodes/NNN-topic-slug/` and fill in `script.md` (re-read `docs/style-guide.md` first)
 2. **Voiceover** — generate with `say` (see Voiceover above); keep total length under 60s
-3. **Composition** — fill `episodes/NNN-topic-slug/data.ts`, reuse an existing composition in `src/compositions/` where possible, and sync timing to the voiceover. Every video must include the channel watermark (`<ChannelWatermark />` from `src/components/ChannelWatermark.tsx`, as in `MirrorFlip.tsx`)
+3. **Composition** — fill `episodes/NNN-topic-slug/data.ts`, reuse an existing composition in `src/compositions/` where possible, and sync timing to the voiceover. Every video must include the channel watermark, in the same format as previous videos: `<ChannelWatermark text={channelName} />` from `src/components/ChannelWatermark.tsx` (bottom-right translucent pill), rendered as the last child of the composition's root `<AbsoluteFill>` (see `MirrorFlip.tsx`), with `channelName` coming from the episode props. Don't restyle, reposition, or hardcode the channel name
 4. **Verify** — preview in Remotion Studio or render a short frame range, confirming the watermark is visible; run `npm run lint`
 5. **Render** — `npx remotion render Explainer out/<episode-slug>.mp4 --props='./episodes/NNN-topic-slug/data.json'`
 6. **Captions** — burn in captions (videos are often watched muted)
