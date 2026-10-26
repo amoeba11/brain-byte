@@ -55,7 +55,7 @@ Follow these steps in order (details in `docs/content-pipeline.md`):
 7. **Captions** — burn in captions (videos are often watched muted)
 8. **Fact-check (video)** — after rendering (with captions), watch the final video and check that on-screen text, numbers, captions, and visuals match the verified narration and sources; fix and re-render if anything is wrong or misleading
 9. **PR** — commit the episode/code changes on a branch and open a PR (see Git workflow); `out/` is not committed
-10. **Upload** — only after the user confirms the video is ready:
+10. **Upload** — only after both fact-checks pass and the user confirms the video is ready:
    ```bash
    npm run youtube:upload -- --file out/<episode-slug>.mp4 --title "..." --description "..." --tags shorts,science --privacy private
    ```
