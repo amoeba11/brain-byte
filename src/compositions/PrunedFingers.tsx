@@ -36,10 +36,10 @@ const defaultProps: PrunedFingersProps = {
 };
 
 // Scene start times in seconds: hook, setup, payoff, bonus, button, end card.
-// Estimated from the script until the voiceover (assets/audio/006-pruned-fingers.m4a)
-// exists; retime these to the clips once it is recorded.
+// Aligned to the `say` voiceover clips (assets/audio/006-pruned-fingers.m4a):
+// hook, setup, payoff, bonus, button, end card.
 const FPS = 30;
-const STARTS = [0, 5, 13.5, 23.5, 31.5, 36].map((s) => Math.round(s * FPS));
+const STARTS = [0, 5.25, 14.94, 23.56, 32.79, 36.11].map((s) => Math.round(s * FPS));
 const TOTAL_FRAMES = 39 * FPS;
 
 const SKIN = "#F2B38C";
