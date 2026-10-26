@@ -13,7 +13,6 @@ import { colors } from "../themes/colors";
 import { TextReveal } from "../components/TextReveal";
 import { BackgroundPulse } from "../components/BackgroundPulse";
 import { ChannelWatermark } from "../components/ChannelWatermark";
-import { EndCardScene } from "../components/EndCardScene";
 
 export type PrunedFingersProps = {
   hookText: string;
@@ -21,7 +20,6 @@ export type PrunedFingersProps = {
   payoffText: string;
   bonusText: string;
   buttonText: string;
-  endText: string;
   audioFile?: string;
   channelName?: string;
 };
@@ -32,15 +30,14 @@ const defaultProps: PrunedFingersProps = {
   payoffText: "Payoff beat text goes here",
   bonusText: "Bonus beat text goes here",
   buttonText: "Button line goes here",
-  endText: "End card text goes here",
 };
 
 // Scene start times in seconds: hook, setup, payoff, bonus, button, end card.
 // Aligned to the `say` voiceover clips (assets/audio/006-pruned-fingers.m4a):
-// hook, setup, payoff, bonus, button, end card.
+// hook, setup, payoff, bonus, button (the button scene doubles as the end card).
 const FPS = 30;
-const STARTS = [0, 5.25, 14.94, 23.56, 32.79, 36.11].map((s) => Math.round(s * FPS));
-const TOTAL_FRAMES = 39 * FPS;
+const STARTS = [0, 5.25, 14.94, 23.56, 32.79].map((s) => Math.round(s * FPS));
+const TOTAL_FRAMES = 38 * FPS;
 
 const SKIN = "#F2B38C";
 const SKIN_DARK = "#C98A66";
@@ -504,6 +501,11 @@ const RainTiresScene: React.FC<{ text: string }> = ({ text }) => {
         <TextReveal fontSize={48} delay={8} stagger style={{ color: colors.foreground }}>
           {text}
         </TextReveal>
+        <div style={{ marginTop: 40 }}>
+          <TextReveal fontSize={32} delay={60} style={{ color: colors.accentAlt, fontWeight: 500 }}>
+            Follow for more
+          </TextReveal>
+        </div>
       </div>
     </AbsoluteFill>
   );
@@ -515,7 +517,6 @@ export const PrunedFingers: React.FC<PrunedFingersProps> = ({
   payoffText,
   bonusText,
   buttonText,
-  endText,
   audioFile,
   channelName,
 }) => {
@@ -540,9 +541,6 @@ export const PrunedFingers: React.FC<PrunedFingersProps> = ({
       </Sequence>
       <Sequence from={STARTS[4]} durationInFrames={dur(4)}>
         <RainTiresScene text={buttonText} />
-      </Sequence>
-      <Sequence from={STARTS[5]} durationInFrames={dur(5)}>
-        <EndCardScene text={endText} />
       </Sequence>
 
       <ChannelWatermark text={channelName} />
