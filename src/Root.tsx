@@ -5,6 +5,7 @@ import { TickleYourselfComposition } from "./compositions/TickleYourself";
 import { BatteryTongueComposition } from "./compositions/BatteryTongue";
 import { HumPinchedNoseComposition } from "./compositions/HumPinchedNose";
 import { PrunedFingersComposition } from "./compositions/PrunedFingers";
+import { MetalColderComposition } from "./compositions/MetalColder";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ export const RemotionRoot: React.FC = () => {
       <BatteryTongueComposition />
       <HumPinchedNoseComposition />
       <PrunedFingersComposition />
+      <MetalColderComposition />
     </>
   );
 };
