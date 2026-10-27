@@ -48,17 +48,19 @@ Run `npm run lint` before committing any code change.
 Follow these steps in order (details in `docs/content-pipeline.md`):
 1. **Script** — copy `episodes/001-example-topic/` to the next unused `episodes/NNN-topic-slug/` and fill in `script.md` (re-read `docs/style-guide.md` first)
 2. **Voiceover** — generate with `say` (see Voiceover above); keep total length under 60s
-3. **Composition** — fill `episodes/NNN-topic-slug/data.ts`, reuse an existing composition in `src/compositions/` where possible, and sync timing to the voiceover. Every video must include the channel watermark, in the same format as previous videos: `<ChannelWatermark text={channelName} />` from `src/components/ChannelWatermark.tsx` (bottom-right translucent pill), rendered as the last child of the composition's root `<AbsoluteFill>` (see `MirrorFlip.tsx`), with `channelName` coming from the episode props. Don't restyle, reposition, or hardcode the channel name. The last scene must be the shared end card: `<EndCardScene text={buttonText} />` from `src/components/EndCardScene.tsx`, where `buttonText` is a one-line summary/takeaway of the episode; the component adds the "Follow for more" line, so don't hand-roll a different ending
-4. **Verify** — preview in Remotion Studio or render a short frame range, confirming the watermark is visible; run `npm run lint`
-5. **Render** — `npx remotion render Explainer out/<episode-slug>.mp4 --props='./episodes/NNN-topic-slug/data.json'`
-6. **Captions** — burn in captions (videos are often watched muted)
-7. **PR** — commit the episode/code changes on a branch and open a PR (see Git workflow); `out/` is not committed
-8. **Upload** — only after the user confirms the video is ready:
+3. **Fact-check (audio)** — after generating the voiceover, check every claim, number, name, and unit in the narration against the sources listed in `script.md`; fix the script and regenerate the audio for anything wrong or unsourced, and cut claims that can't be verified
+4. **Composition** — fill `episodes/NNN-topic-slug/data.ts`, reuse an existing composition in `src/compositions/` where possible, and sync timing to the voiceover. Every video must include the channel watermark, in the same format as previous videos: `<ChannelWatermark text={channelName} />` from `src/components/ChannelWatermark.tsx` (bottom-right translucent pill), rendered as the last child of the composition's root `<AbsoluteFill>` (see `MirrorFlip.tsx`), with `channelName` coming from the episode props. Don't restyle, reposition, or hardcode the channel name. The last scene must be the shared end card: `<EndCardScene text={buttonText} />` from `src/components/EndCardScene.tsx`, where `buttonText` is a one-line summary/takeaway of the episode; the component adds the "Follow for more" line, so don't hand-roll a different ending
+5. **Verify** — preview in Remotion Studio or render a short frame range, confirming the watermark is visible; run `npm run lint`
+6. **Render** — `npx remotion render Explainer out/<episode-slug>.mp4 --props='./episodes/NNN-topic-slug/data.json'`
+7. **Captions** — burn in captions (videos are often watched muted)
+8. **Fact-check (video)** — after rendering (with captions), watch the final video and check that on-screen text, numbers, captions, and visuals match the verified narration and sources; fix and re-render if anything is wrong or misleading
+9. **PR** — commit the episode/code changes on a branch and open a PR (see Git workflow); `out/` is not committed
+10. **Upload** — only after both fact-checks pass and the user confirms the video is ready:
    ```bash
    npm run youtube:upload -- --file out/<episode-slug>.mp4 --title "..." --description "..." --tags shorts,science --privacy private
    ```
    Always upload as `private`; never set a video public yourself — the user reviews it in YouTube Studio and promotes it
-9. **Track** — note performance in `docs/growth-strategy.md`
+11. **Track** — note performance in `docs/growth-strategy.md`
 
 ## Testing/verification
 - After changing a composition or component, preview it in Remotion Studio (`npm run dev`) or render at least a short frame range before calling the change done — don't rely on `npm run lint` passing alone as proof it looks right

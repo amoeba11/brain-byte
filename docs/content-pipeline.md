@@ -16,6 +16,9 @@ Fill out `script.md`: hook, beats, full VO text, visual notes, sources.
   `say -v <voice> -o assets/audio/<episode-slug>.aiff -f episodes/NNN-topic-slug/narration.txt`
 - Convert if needed (`afconvert -f mp4f -d aac in.aiff out.m4a`) and keep the audio in `assets/audio/`.
 
+## 3b. Fact-check (audio)
+Check every claim, number, name, and unit in the narration against the sources in `script.md`. Fix the script and regenerate the audio for anything wrong; cut anything unverifiable.
+
 ## 4. Composition
 - Fill `episodes/NNN-topic-slug/data.ts` with episode-specific props (title, stats, etc.).
 - Reuse templates in `src/compositions/` where possible; only build a new composition
@@ -32,6 +35,9 @@ npx remotion render Explainer out/<episode-slug>.mp4 --props='./episodes/NNN-top
 ## 6. Captions
 Short-form content is often watched muted — burn in captions before publishing
 (Remotion's `@remotion/captions` package, or an external auto-caption tool).
+
+## 6b. Fact-check (video)
+Watch the final render: on-screen text, numbers, captions, and visuals must match the verified narration and sources. Fix and re-render if not.
 
 ## 7. Publish
 Upload via the YouTube upload script (see README.md's "YouTube upload" section
