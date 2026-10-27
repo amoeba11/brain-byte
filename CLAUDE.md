@@ -26,6 +26,14 @@ Run `npm run lint` before committing any code change.
 - `docs/content-pipeline.md`, `docs/style-guide.md`, `docs/growth-strategy.md` — follow these for tone, visual rules, and the idea → script → render → publish workflow
 - Rendered output in `out/` is a build artifact, not something to hand-edit
 
+## Topic approval (required before creating an episode)
+Never start a new episode (folder, script, composition, render) until the user has approved the topic.
+1. Check `episodes/` and the backlog in `docs/growth-strategy.md` so you don't repeat an existing topic
+2. Propose the topic (or 2–3 candidates if the user didn't name one) with: working title, one-line hook, why it fits the format pillars, and rough visual approach
+3. Stop and wait for an explicit "yes" in chat — if the user asks for changes, revise and ask again
+4. Only after approval: create `episodes/NNN-topic-slug/` and continue with the pipeline in `docs/content-pipeline.md`
+Approval covers that topic only; a new episode needs a new approval, even mid-session. If the user names a specific topic and says to go ahead, that counts as approval.
+
 ## Episode numbering
 - Episode folders are `episodes/NNN-topic-slug/`, `NNN` zero-padded to 3 digits
 - Use the next unused number after the highest existing episode folder — check `episodes/` first, don't guess or reuse a number
