@@ -13,6 +13,7 @@ import { colors } from "../themes/colors";
 import { TextReveal } from "../components/TextReveal";
 import { BackgroundPulse } from "../components/BackgroundPulse";
 import { ChannelWatermark } from "../components/ChannelWatermark";
+import { EndCardScene } from "../components/EndCardScene";
 
 export type MetalColderProps = {
   hookText: string;
@@ -50,7 +51,7 @@ const COLD = "#5CC8FF";
 
 // "Why does metal feel colder?" explainer: same-temperature blocks hook ->
 // skin-senses-heat-loss setup -> fast-vs-slow heat flow payoff -> reverse-case
-// bonus -> heat-loss-sensor button.
+// bonus -> shared end card.
 export const MetalColderComposition = () => {
   return (
     <Composition
@@ -459,39 +460,6 @@ const BonusScene: React.FC<{ text: string }> = ({ text }) => {
   );
 };
 
-const SensorScene: React.FC<{ text: string }> = ({ text }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const intro = spring({ frame, fps, config: { damping: 10, mass: 0.7 } });
-  const swap = ramp(frame, 30, 50);
-
-  return (
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", gap: 70 }}>
-      <BackgroundPulse color={colors.accent} size={1000} />
-      <div style={{ transform: `scale(${intro})`, position: "relative", width: 520, height: 400 }}>
-        <div style={{ position: "absolute", left: 0, top: 0, opacity: 1 - swap }}>
-          <Thermometer text="21°C" appear={1} />
-        </div>
-        <div style={{ position: "absolute", left: 205, top: 40, opacity: swap }}>
-          <Finger width={110} />
-        </div>
-        <HeatArrows xs={[225, 260, 295]} top={250} bottom={380} direction="down" appear={swap} />
-      </div>
-      <Stamp text="HEAT-LOSS SENSOR" appear={ramp(frame, 60, 72)} color={colors.accentAlt} size={72} rotate={-4} />
-      <div style={{ padding: "0 90px", transform: "translateY(-30px)" }}>
-        <TextReveal fontSize={48} delay={8} stagger style={{ color: colors.foreground }}>
-          {text}
-        </TextReveal>
-        <div style={{ marginTop: 40 }}>
-          <TextReveal fontSize={32} delay={60} style={{ color: colors.accentAlt, fontWeight: 500 }}>
-            Follow for more
-          </TextReveal>
-        </div>
-      </div>
-    </AbsoluteFill>
-  );
-};
-
 export const MetalColder: React.FC<MetalColderProps> = ({
   hookText,
   setupText,
@@ -521,7 +489,7 @@ export const MetalColder: React.FC<MetalColderProps> = ({
         <BonusScene text={bonusText} />
       </Sequence>
       <Sequence from={STARTS[4]} durationInFrames={dur(4)}>
-        <SensorScene text={buttonText} />
+        <EndCardScene text={buttonText} />
       </Sequence>
 
       <ChannelWatermark text={channelName} />
