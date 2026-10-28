@@ -37,8 +37,8 @@ const defaultProps: MetalColderProps = {
 // scene doubles as the end card). Aligned to the `say` voiceover clips
 // (assets/audio/007-metal-feels-colder.m4a).
 const FPS = 30;
-const STARTS = [0, 5.15, 14.27, 27.01, 39.2].map((s) => Math.round(s * FPS));
-const TOTAL_FRAMES = 45 * FPS;
+const STARTS = [0, 7.88, 16.49, 27.68, 38.41].map((s) => Math.round(s * FPS));
+const TOTAL_FRAMES = 44 * FPS;
 
 const SKIN = "#F2B38C";
 const SKIN_DARK = "#C98A66";
@@ -216,25 +216,29 @@ const HookScene: React.FC<{ text: string }> = ({ text }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const intro = spring({ frame, fps, config: { damping: 12, mass: 0.7 } });
-  const therm = ramp(frame, 18, 30);
-  const myth = ramp(frame, 50, 62);
-  const strike = ramp(frame, 74, 86);
-  const truth = ramp(frame, 96, 108);
+  const labels = ramp(frame, 12, 24);
+  const myth = ramp(frame, 96, 108);
+  const strike = ramp(frame, 144, 156);
+  const therm = ramp(frame, 160, 172);
+  const truth = ramp(frame, 186, 198);
 
   return (
     <AbsoluteFill style={{ alignItems: "center" }}>
       <BackgroundPulse color={colors.accentAlt} size={1100} />
       <div style={{ position: "absolute", top: 230, display: "flex", gap: 80, transform: `scale(${intro})` }}>
         {(["metal", "wood"] as const).map((k) => (
-          <div key={k} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+          <div key={k} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
             <Block kind={k} />
+            <div style={{ fontSize: 42, fontWeight: 900, color: colors.foreground, opacity: labels }}>
+              {k === "metal" ? "METAL SPOON" : "WOODEN SPOON"}
+            </div>
             <Thermometer text="21°C" appear={therm} />
           </div>
         ))}
       </div>
       <div style={{ position: "absolute", top: 860, display: "flex", flexDirection: "column", alignItems: "center", gap: 40 }}>
         <div style={{ position: "relative" }}>
-          <Stamp text="METAL IS COLDER" appear={myth} color={colors.muted} size={62} rotate={-3} />
+          <Stamp text="METAL FEELS COLDER" appear={myth} color={colors.muted} size={56} rotate={-3} />
           <div
             style={{
               position: "absolute",
