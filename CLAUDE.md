@@ -66,7 +66,7 @@ Follow these steps in order (details in `docs/content-pipeline.md`):
    ```bash
    npm run youtube:upload -- --file out/<episode-slug>.mp4 --title "..." --description "..." --tags shorts,science --privacy private
    ```
-   Always upload as `private`; never set a video public yourself — the user reviews it in YouTube Studio and promotes it
+   Always upload as `private`. Only make a video public when the user explicitly asks, via `npm run youtube:set-privacy -- --id <videoId> --privacy public`; never do it on your own initiative
 9. **Track** — note performance in `docs/growth-strategy.md`
 
 ## Testing/verification
