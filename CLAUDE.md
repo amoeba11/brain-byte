@@ -44,6 +44,7 @@ Approval covers that topic only; a new episode needs a new approval, even mid-se
 
 ## Voiceover
 - Generate episode voiceover with macOS's built-in `say` command, not an external TTS service
+- Always use `-v Samantha` at the default rate (the voice of episodes 005+); never rely on the system default voice, which differs per machine
 - Write the narration text from the episode script, then render to audio, e.g.:
   ```bash
   say -v <voice> -r <wpm> -o episodes/NNN-topic-slug/voiceover.aiff -f episodes/NNN-topic-slug/narration.txt
