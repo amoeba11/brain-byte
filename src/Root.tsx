@@ -8,6 +8,7 @@ import { PrunedFingersComposition } from "./compositions/PrunedFingers";
 import { MetalColderComposition } from "./compositions/MetalColder";
 import { StareDotComposition } from "./compositions/StareDot";
 import { BlindSpotComposition } from "./compositions/BlindSpot";
+import { ChronostasisComposition } from "./compositions/Chronostasis";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ export const RemotionRoot: React.FC = () => {
       <MetalColderComposition />
       <StareDotComposition />
       <BlindSpotComposition />
+      <ChronostasisComposition />
     </>
   );
 };
