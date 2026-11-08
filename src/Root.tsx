@@ -9,6 +9,7 @@ import { MetalColderComposition } from "./compositions/MetalColder";
 import { StareDotComposition } from "./compositions/StareDot";
 import { BlindSpotComposition } from "./compositions/BlindSpot";
 import { ChronostasisComposition } from "./compositions/Chronostasis";
+import { CountTheFsComposition } from "./compositions/CountTheFs";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ export const RemotionRoot: React.FC = () => {
       <StareDotComposition />
       <BlindSpotComposition />
       <ChronostasisComposition />
+      <CountTheFsComposition />
     </>
   );
 };
