@@ -10,6 +10,7 @@ import { StareDotComposition } from "./compositions/StareDot";
 import { BlindSpotComposition } from "./compositions/BlindSpot";
 import { ChronostasisComposition } from "./compositions/Chronostasis";
 import { CountTheFsComposition } from "./compositions/CountTheFs";
+import { StroopTestComposition } from "./compositions/StroopTest";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ export const RemotionRoot: React.FC = () => {
       <BlindSpotComposition />
       <ChronostasisComposition />
       <CountTheFsComposition />
+      <StroopTestComposition />
     </>
   );
 };
