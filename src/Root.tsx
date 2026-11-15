@@ -12,6 +12,7 @@ import { ChronostasisComposition } from "./compositions/Chronostasis";
 import { CountTheFsComposition } from "./compositions/CountTheFs";
 import { StroopTestComposition } from "./compositions/StroopTest";
 import { FootCircleComposition } from "./compositions/FootCircle";
+import { QrSquaresComposition } from "./compositions/QrSquares";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ export const RemotionRoot: React.FC = () => {
       <CountTheFsComposition />
       <StroopTestComposition />
       <FootCircleComposition />
+      <QrSquaresComposition />
     </>
   );
 };
