@@ -13,6 +13,7 @@ import { CountTheFsComposition } from "./compositions/CountTheFs";
 import { StroopTestComposition } from "./compositions/StroopTest";
 import { FootCircleComposition } from "./compositions/FootCircle";
 import { QrSquaresComposition } from "./compositions/QrSquares";
+import { DnaLengthComposition } from "./compositions/DnaLength";
 import { PopcornPopComposition } from "./compositions/PopcornPop";
 
 export const RemotionRoot: React.FC = () => {
@@ -33,6 +34,7 @@ export const RemotionRoot: React.FC = () => {
       <StroopTestComposition />
       <FootCircleComposition />
       <QrSquaresComposition />
+      <DnaLengthComposition />
       <PopcornPopComposition />
     </>
   );

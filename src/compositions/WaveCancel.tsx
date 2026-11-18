@@ -270,7 +270,7 @@ export const WaveCancel: React.FC<WaveCancelProps> = ({
     <AbsoluteFill style={{ backgroundColor: colors.background }}>
       {audioFile ? <Audio src={staticFile(audioFile)} /> : null}
 
-      <Sequence from={0} durationInFrames={hook}>
+      <Sequence  durationInFrames={hook}>
         <HookScene text={hookText} />
       </Sequence>
       <Sequence from={hook} durationInFrames={setup}>
